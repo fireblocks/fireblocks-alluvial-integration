@@ -29,7 +29,7 @@ Be sure you have the private key file you generated with the CSR when you genera
 If you haven't already, run `npm install`
  
 ## Usage
-To use the functions, uncomment the line that calls each function. For example, if you'd like to run `createRedeemRequest`, be sure it is uncommented, and run:
+To use the functions, uncomment the line that calls each function. For example, if you'd like to run `createRedeemRequest()`, be sure it is uncommented, and run:
 
 ```node unstake.js```
 
