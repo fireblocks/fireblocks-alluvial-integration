@@ -112,25 +112,6 @@ const createRedeemRequest = async () => {
 // createRedeemRequest();
 
 
-const checkRedeemEvent = async () => {
-    //insert secret here below. Replace Goerli with any other
-    const provider = new ethers.providers.WebSocketProvider(
-        `wss://goerli.infura.io/ws/v3/${INFURA_SECRET}`, "goerli"
-      );
-    
-    const redeemManagerContract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider.getSigner());
-
-    redeemManagerContract.on("RequestedRedeem",(owner, height, amount, maxRedeemableEth, id) => {
-      console.log('RequestedRedeem event');
-      console.log(`Owner of redeem ${owner}`)
-      console.log(`Height ${height.toString()}`);
-      console.log(`Amount of LsETH to redeem ${amount.toString()}`);
-      console.log(`Maximum amount of ETH to redeem ${maxRedeemableEth.toString()}`);
-      console.log(`Request Redeem ID ${id}`);
-    });
-}
-// checkRedeemEvent
-
 const resolveRedeemRequest = async () => { 
 
     const provider = new ethers.providers.Web3Provider(eip1193Provider);
