@@ -59,7 +59,8 @@ const getAssets = async() => {
         }
     })
 }
-// getAssets()
+getAssets()
+
 
 const addAssetToVault = async() => {
 

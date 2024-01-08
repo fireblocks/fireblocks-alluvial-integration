@@ -13,7 +13,7 @@ const ethers = require("ethers");
 const baseUrl = "https://api.fireblocks.io";
 
 //Put Secret Key file here
-const apiSecret = fs.readFileSync(path.resolve("./fireblocks_secret.key"), "utf8");
+const apiSecret = fs.readFileSync(path.resolve("../fireblocks_secret.key"), "utf8");
 
 const apiKey = process.env.API_KEY;
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS.toLowerCase();
@@ -25,19 +25,16 @@ const ABI = require("./RedeemManagerMain.json").abi;
 
 
 //BE SURE TO UPDATE THESE VALUES for main and testnet.
-const eip1193Provider = new FireblocksWeb3Provider({
-    apiBaseUrl: baseUrl,
-    privateKey: apiSecret,
-    apiKey: apiKey,
-    vaultAccountIds: "2",
-    chainId: ChainId.GOERLI,
+// const eip1193Provider = new FireblocksWeb3Provider({
+//     apiBaseUrl: baseUrl,
+//     privateKey: apiSecret,
+//     apiKey: apiKey,
+//     vaultAccountIds: "2",
+//     chainId: ChainId.GOERLI,
 
-    logTransactionStatusChanges: true // Verbose logging
-})
-
-const redeemManagerContract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider.getSigner());
-const provider = new ethers.providers.Web3Provider(eip1193Provider);
-
+//     logTransactionStatusChanges: true // Verbose logging
+// })
+// const provider = new ethers.providers.Web3Provider(eip1193Provider);
 
 const checkRedeemEvent = async () => {
     //insert secret here below. Replace Goerli with any other
@@ -56,7 +53,7 @@ const checkRedeemEvent = async () => {
       console.log(`Request Redeem ID ${id}`);
     });
 }
-// checkRedeemEvent
+checkRedeemEvent();
 
 const checkWithdrawalEvent = async () => {
     const provider = new ethers.providers.WebSocketProvider(
