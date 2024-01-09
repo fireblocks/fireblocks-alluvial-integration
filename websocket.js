@@ -7,16 +7,17 @@ const { inspect } = require('util');
 const ethers = require("ethers");
 
 //Update with Goerli and mainnet accordingly. The following is testnet to start
-const CONTRACT_ADDRESS = "0x080b3a41390b357Ad7e8097644d1DEDf57AD3375";
+const CONTRACT_ADDRESS = "0x653b549554669a06BB9e260b9f2c0A54F5d7E722";
 const INFURA_SECRET = process.env.INFURA_SECRET;
-const ABI = require("./RedeemManagerMain.json").abi;
+const Contract = require("./RedeemManagerTest.json");
  
 async function main(){
     const provider = new ethers.providers.WebSocketProvider(
-        `wss://goerli.infura.io/ws/v3/${INFURA_SECRET}`, "goerli"
-      );
+      `wss://goerli.infura.io/ws/v3/${INFURA_SECRET}`, "goerli"
+    );
 
-    const redeemManagerContract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider.getSigner());
+    const redeemManagerContract = new ethers.Contract(CONTRACT_ADDRESS, Contract.abi, provider);
+    console.log("listening on events");
 
     redeemManagerContract.on("RequestedRedeem",(owner, height, amount, maxRedeemableEth, id) => {
       console.log('RequestedRedeem event');

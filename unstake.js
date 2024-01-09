@@ -14,13 +14,12 @@ const ethers = require("ethers");
 const baseUrl = "https://api.fireblocks.io";
 
 //Put Secret Key file here
-const apiSecret = fs.readFileSync(path.resolve("./fireblocks_secret.key"), "utf8");
+const apiSecret = fs.readFileSync(path.resolve("../fireblocks-secret-key.key"), "utf8");
 
 const apiKey = process.env.API_KEY;
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS.toLowerCase();
-const FIREBLOCKS_ADDRESS = "0x2e9E16e6deB4022399E4FCd387bCB59Ac5855762";
+const FIREBLOCKS_ADDRESS = "0xc8b804dC055bc54AC32Af748D0C7b683E11577cD";
 const walletAddress = process.env.WALLET_ADDRESS.toLowerCase();
-const INFURA_SECRET = process.env.INFURA_SECRET;
 
 const ABI = require("./ContractTest.json").abi;
 
@@ -31,7 +30,7 @@ const eip1193Provider = new FireblocksWeb3Provider({
     apiBaseUrl: baseUrl,
     privateKey: apiSecret,
     apiKey: apiKey,
-    vaultAccountIds: "2",
+    vaultAccountIds: "8",
     chainId: ChainId.GOERLI,
 
     logTransactionStatusChanges: true // Verbose logging
@@ -91,21 +90,21 @@ console.log(JSON.stringify(vaultAsset))
 const createRedeemRequest = async () => { 
 
     const provider = new ethers.providers.Web3Provider(eip1193Provider);
-    console.log(provider);
+    // console.log(provider);
     const LsETHContract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider.getSigner());
 
     const value = ethers.utils.parseEther("0.1");
 
     console.log("creating redeem request for", walletAddress);
 
-    const redeem_estimation = await LsETHContract.estimateGas.requestRedeem(value, FIREBLOCKS_ADDRESS, { gasLimit: 1000});
-    const tx = await LsETHContract.requestRedeem(value, FIREBLOCKS_ADDRESS, { gasLimit: redeem_estimation});
+    // const redeem_estimation = await LsETHContract.estimateGas.requestRedeem(value, FIREBLOCKS_ADDRESS, { gasLimit: 1000});
+    // const tx = await LsETHContract.requestRedeem(value, FIREBLOCKS_ADDRESS, { gasLimit: redeem_estimation});
     
     //Uncomment for testnet. Mainnet does not allow gas estimation
-    // const redeem_estimation = await LsETHContract.estimateGas.requestRedeem(value, walletAddress, { gasLimit: 1000});
+    const redeem_estimation = await LsETHContract.estimateGas.requestRedeem(value, walletAddress, { gasLimit: 1000});
 
-    // //use gas limit 6000 for mainnet
-    // const tx = await LsETHContract.requestRedeem(value, walletAddress, { gasLimit: 6000});
+    //use gas limit 6000 for mainnet
+    const tx = await LsETHContract.requestRedeem(value, walletAddress, { gasLimit: 6000});
     let receipt = await tx.wait();
     console.log(receipt)
 
